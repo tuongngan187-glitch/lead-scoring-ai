@@ -36,7 +36,7 @@ def rule_based_scorer(requirement):
     if not requirement or not isinstance(requirement, str):
         return {
             "score": 50,
-            "classification": "Tiềm năng trung bình",
+            "classification": "Ấm",
             "reason": "Nhu cầu trống hoặc không hợp lệ"
         }
         
@@ -145,15 +145,15 @@ def rule_based_scorer(requirement):
     # 4. TỔNG HỢP ĐIỂM SỐ & PHÂN LOẠI
     if trash_detected:
         score = 0
-        classification = "Không tiềm năng"
+        classification = "Rác"
         reason = "Trừ 50đ: " + ", ".join(trash_reasons)
     elif vip_detected:
         score = 100
-        classification = "VIP"
+        classification = "Nóng"
         reason = "Cộng 50đ: " + ", ".join(vip_reasons)
     else:
         score = 50
-        classification = "Tiềm năng trung bình"
+        classification = "Ấm"
         reason = "Khách hàng tầm trung, có nhu cầu thực tế liên quan đến chung cư/nhà phố hoặc cần tư vấn thêm."
         
     return {
@@ -220,7 +220,7 @@ def normalize_dataframe(df):
             "score": None,
             "classification": None,
             "reason": None,
-            "status": "Chưa duyệt",
+            "status": "Chờ duyệt",
             "reviewer_notes": ""
         })
     return leads
@@ -241,7 +241,7 @@ MOCK_DATA = [
     "phone": "0912345678",
     "email": "hung.nguyen@email.com",
     "requirement": "Tôi là chủ doanh nghiệp, đang có nhu cầu tìm mua một căn biệt thự đơn lập tại Vinhomes Ocean Park. Ngân sách khoảng 35 tỷ đồng, tài chính đã sẵn sàng thanh toán ngay. Yêu cầu pháp lý chuẩn 100%, có sổ hồng riêng và muốn gặp trực tiếp chủ đầu tư để thương thảo.",
-    "status": "Chưa duyệt",
+    "status": "Chờ duyệt",
     "reviewer_notes": ""
   },
   {
@@ -250,7 +250,7 @@ MOCK_DATA = [
     "phone": "0987654321",
     "email": "lan.tran@email.com",
     "requirement": "Đại diện quỹ đầu tư mua sỉ diện tích lớn sàn văn phòng tại Quận 1 ven sông Sài Gòn để làm trụ sở. Tài chính mạnh không thành vấn đề, yêu cầu pháp lý hoàn chỉnh sổ hồng trao tay.",
-    "status": "Chưa duyệt",
+    "status": "Chờ duyệt",
     "reviewer_notes": ""
   },
   {
@@ -259,7 +259,7 @@ MOCK_DATA = [
     "phone": "0903334455",
     "email": "duc.pham@email.com",
     "requirement": "Cần tìm căn Penthouse cao cấp tại Phú Mỹ Hưng. Yêu cầu có tầm nhìn ven sông thông thoáng, tài chính tầm 25 tỷ thanh toán nhanh gọn. Muốn làm việc trực tiếp với chủ đầu tư để thương lượng giá.",
-    "status": "Chưa duyệt",
+    "status": "Chờ duyệt",
     "reviewer_notes": ""
   },
   {
@@ -268,7 +268,7 @@ MOCK_DATA = [
     "phone": "0915112233",
     "email": "nam.le@email.com",
     "requirement": "Cần mua chung cư 2 phòng ngủ giá từ 3-4 tỷ đồng tại khu vực Quận 7 hoặc Nhà Bè cho gia đình ở. Cần dự án có chính sách hỗ trợ vay vốn ngân hàng lãi suất tốt.",
-    "status": "Chưa duyệt",
+    "status": "Chờ duyệt",
     "reviewer_notes": ""
   },
   {
@@ -277,7 +277,7 @@ MOCK_DATA = [
     "phone": "0978223344",
     "email": "hong.vu@email.com",
     "requirement": "Tìm nhà phố khu vực Quận 9 hoặc Thủ Đức tầm giá 6-7 tỷ. Cần tư vấn thêm về pháp lý và quy hoạch lộ giới đường trước nhà.",
-    "status": "Chưa duyệt",
+    "status": "Chờ duyệt",
     "reviewer_notes": ""
   },
   {
@@ -286,7 +286,7 @@ MOCK_DATA = [
     "phone": "0966554433",
     "email": "teo.hoang@email.com",
     "requirement": "Cần mua nhà mặt phố trung tâm Quận 1 có sân vườn và hồ bơi, giá tầm 1.5 tỷ trở lại. Đầy đủ sổ hồng riêng.",
-    "status": "Chưa duyệt",
+    "status": "Chờ duyệt",
     "reviewer_notes": ""
   },
   {
@@ -295,7 +295,7 @@ MOCK_DATA = [
     "phone": "0933889900",
     "email": "quan.do@email.com",
     "requirement": "Nhầm số rồi em ơi, anh không có nhu cầu mua bất động sản đâu nhé.",
-    "status": "Chưa duyệt",
+    "status": "Chờ duyệt",
     "reviewer_notes": ""
   },
   {
@@ -304,7 +304,7 @@ MOCK_DATA = [
     "phone": "0909998877",
     "email": "info@insurance.com",
     "requirement": "Chào bạn, bên mình chuyên cung cấp các gói bảo hiểm sức khỏe ưu việt cho doanh nghiệp và cá nhân, chiết khấu lên đến 30%...",
-    "status": "Chưa duyệt",
+    "status": "Chờ duyệt",
     "reviewer_notes": ""
   },
   {
@@ -313,7 +313,7 @@ MOCK_DATA = [
     "phone": "0911002233",
     "email": "trang.nguyen@email.com",
     "requirement": "Số thuê bao không liên lạc được, đã gọi nhiều lần vào các khung giờ khác nhau nhưng không bắt máy, nhắn tin Zalo không thấy phản hồi.",
-    "status": "Chưa duyệt",
+    "status": "Chờ duyệt",
     "reviewer_notes": ""
   }
 ]
@@ -398,12 +398,6 @@ with st.sidebar:
     st.markdown("### 🔍 Bộ lọc hiển thị")
     search_q = st.text_input("Tìm kiếm theo Tên / Số điện thoại", value="")
     
-    selected_classes = st.multiselect(
-        "Phân loại của AI",
-        options=["VIP", "Tiềm năng trung bình", "Không tiềm năng"],
-        default=["VIP", "Tiềm năng trung bình", "Không tiềm năng"]
-    )
-    
     st.markdown("---")
     st.markdown("### 💡 Quy tắc chấm điểm chính:")
     st.markdown("""
@@ -480,6 +474,12 @@ else:
         except Exception as e:
             st.error(f"Lỗi phân tích tệp: {str(e)}")
 
+# Placeholders for layout sections (ensuring metrics & charts display above filters & table)
+metrics_placeholder = st.container()
+charts_placeholder = st.container()
+filters_placeholder = st.container()
+table_placeholder = st.container()
+
 # Filter and Search processing
 filtered_leads = st.session_state.leads
 
@@ -491,131 +491,157 @@ if search_q.strip() != "":
         if q in l.get('name', '').lower() or q in l.get('phone', '').lower()
     ]
 
-# Apply classification multi-select
+# Render filters in their designated placeholder
+with filters_placeholder:
+    st.markdown("---")
+    st.markdown("### 📝 2. Bảng Kiểm Duyệt (Dành cho Kế Toán / Sales)")
+    st.markdown("*Hệ thống đã tự động gán Từ khóa (Tags) và Gợi ý hành động. Bạn có thể dùng bộ lọc dưới đây để tìm và phê duyệt khách hàng nhanh chóng.*")
+    
+    st.markdown("#### 🔎 Bộ Lọc Dữ Liệu Thông Minh")
+    filter_col1, filter_col2 = st.columns(2)
+    with filter_col1:
+        st.write("Lọc theo Phân loại AI:")
+        selected_classes = st.multiselect(
+            "Lọc theo Phân loại AI:",
+            options=["Nóng", "Ấm", "Rác"],
+            default=["Nóng", "Ấm", "Rác"],
+            label_visibility="collapsed"
+        )
+    with filter_col2:
+        st.write("Lọc theo Trạng thái duyệt:")
+        selected_statuses = st.multiselect(
+            "Lọc theo Trạng thái duyệt:",
+            options=["Chờ duyệt", "Đã duyệt", "Loại bỏ"],
+            default=["Chờ duyệt", "Đã duyệt", "Loại bỏ"],
+            label_visibility="collapsed"
+        )
+
+# Apply main page smart filters
 filtered_leads = [
     l for l in filtered_leads 
-    if l.get('classification', 'Tiềm năng trung bình') in selected_classes
+    if l.get('classification', 'Ấm') in selected_classes
+]
+filtered_leads = [
+    l for l in filtered_leads 
+    if l.get('status', 'Chờ duyệt') in selected_statuses
 ]
 
 # Calculate metrics from all leads
 all_leads_df = pd.DataFrame(st.session_state.leads)
 total_leads = len(all_leads_df)
-vip_leads = sum(1 for l in st.session_state.leads if l.get('classification') == 'VIP')
-medium_leads = sum(1 for l in st.session_state.leads if l.get('classification') == 'Tiềm năng trung bình')
-trash_leads = sum(1 for l in st.session_state.leads if l.get('classification') == 'Không tiềm năng')
+vip_leads = sum(1 for l in st.session_state.leads if l.get('classification') == 'Nóng')
+medium_leads = sum(1 for l in st.session_state.leads if l.get('classification') == 'Ấm')
+trash_leads = sum(1 for l in st.session_state.leads if l.get('classification') == 'Rác')
 
-# Display Custom HTML Metric Cards
-metric_html = f"""
-<div class="custom-card-container">
-    <div class="custom-card total">
-        <div class="value">{total_leads}</div>
-        <div class="label">Tổng khách hàng</div>
+# Display Custom HTML Metric Cards inside metrics placeholder
+with metrics_placeholder:
+    metric_html = f"""
+    <div class="custom-card-container">
+        <div class="custom-card total">
+            <div class="value">{total_leads}</div>
+            <div class="label">Tổng khách hàng</div>
+        </div>
+        <div class="custom-card vip">
+            <div class="value">{vip_leads}</div>
+            <div class="label">Khách hàng Nóng</div>
+        </div>
+        <div class="custom-card medium">
+            <div class="value">{medium_leads}</div>
+            <div class="label">Khách hàng Ấm</div>
+        </div>
+        <div class="custom-card trash">
+            <div class="value">{trash_leads}</div>
+            <div class="label">Khách hàng Rác</div>
+        </div>
     </div>
-    <div class="custom-card vip">
-        <div class="value">{vip_leads}</div>
-        <div class="label">Khách hàng VIP</div>
-    </div>
-    <div class="custom-card medium">
-        <div class="value">{medium_leads}</div>
-        <div class="label">Tiềm năng trung bình</div>
-    </div>
-    <div class="custom-card trash">
-        <div class="value">{trash_leads}</div>
-        <div class="label">Không tiềm năng</div>
-    </div>
-</div>
-"""
-st.markdown(metric_html, unsafe_allow_html=True)
+    """
+    st.markdown(metric_html, unsafe_allow_html=True)
 
-# ----------------------------------------------------
-# 6. CHARTS - Visual Analytics Section
-# ----------------------------------------------------
-st.markdown("### 📊 Biểu đồ phân tích trực quan")
-
-chart_col1, chart_col2 = st.columns(2)
-
-with chart_col1:
-    st.markdown("##### 📈 Tỉ lệ phân loại Khách hàng")
-    class_counts = {
-        "Không tiềm năng": sum(1 for l in filtered_leads if l.get('classification') == 'Không tiềm năng'),
-        "Tiềm năng trung bình": sum(1 for l in filtered_leads if l.get('classification') == 'Tiềm năng trung bình'),
-        "VIP": sum(1 for l in filtered_leads if l.get('classification') == 'VIP')
-    }
-    df_chart_class = pd.DataFrame(
-        list(class_counts.items()), 
-        columns=['Phân loại', 'Số lượng']
-    ).set_index('Phân loại')
-    st.bar_chart(df_chart_class, use_container_width=True)
-
-with chart_col2:
-    st.markdown("##### 📉 Phân bố điểm số tiềm năng")
-    score_counts = {
-        "0": sum(1 for l in filtered_leads if l.get('score') == 0),
-        "50": sum(1 for l in filtered_leads if l.get('score') == 50),
-        "100": sum(1 for l in filtered_leads if l.get('score') == 100)
-    }
-    df_chart_score = pd.DataFrame(
-        list(score_counts.items()), 
-        columns=['Điểm số', 'Số lượng']
-    ).set_index('Điểm số')
-    st.bar_chart(df_chart_score, use_container_width=True)
-
-# ----------------------------------------------------
-# 7. TABLE & EXPORT - Human-in-the-loop Editing
-# ----------------------------------------------------
-st.markdown("### 📋 Bảng Kiểm Duyệt Khách Hàng (Human-in-the-loop)")
-
-if filtered_leads:
-    df_display = pd.DataFrame(filtered_leads)
+# Render charts inside charts placeholder
+with charts_placeholder:
+    st.markdown("### 📊 Biểu đồ phân tích trực quan")
     
-    # Ensure missing columns are present
-    for col in ['score', 'classification', 'reason', 'status', 'reviewer_notes']:
-        if col not in df_display.columns:
-            df_display[col] = None
-            
-    col_order = ['id', 'name', 'phone', 'requirement', 'score', 'classification', 'reason', 'status', 'reviewer_notes']
-    df_display = df_display[col_order]
+    chart_col1, chart_col2 = st.columns(2)
     
-    # Interactive Data Editor
-    edited_df = st.data_editor(
-        df_display,
-        column_config={
-            "id": st.column_config.NumberColumn("Mã", disabled=True),
-            "name": st.column_config.TextColumn("Họ tên", required=True),
-            "phone": st.column_config.TextColumn("Số điện thoại"),
-            "requirement": st.column_config.TextColumn("Nhu cầu", width="large"),
-            "score": st.column_config.NumberColumn("Điểm AI", disabled=True),
-            "classification": st.column_config.SelectboxColumn(
-                "Phân loại AI",
-                options=["VIP", "Tiềm năng trung bình", "Không tiềm năng"],
-                disabled=True
-            ),
-            "reason": st.column_config.TextColumn("Lý do chấm điểm", disabled=True, width="medium"),
-            "status": st.column_config.SelectboxColumn(
-                "Duyệt (Human)",
-                options=["Chưa duyệt", "Đã duyệt", "Từ chối"],
-                required=True
-            ),
-            "reviewer_notes": st.column_config.TextColumn("Ghi chú kiểm duyệt", width="medium")
-        },
-        disabled=["id", "score", "classification", "reason"],
-        hide_index=True,
-        use_container_width=True
-    )
-    
-    # Sync edited data back to main session state
-    for row in edited_df.to_dict('records'):
-        # Update matching lead in main session state
-        for lead in st.session_state.leads:
-            if lead['id'] == row['id']:
-                lead['name'] = row['name']
-                lead['phone'] = row['phone']
-                lead['requirement'] = row['requirement']
-                lead['status'] = row['status']
-                lead['reviewer_notes'] = row['reviewer_notes']
-                break
+    with chart_col1:
+        st.markdown("##### 📈 Tỉ lệ phân loại Khách hàng")
+        class_counts = {
+            "Rác": sum(1 for l in filtered_leads if l.get('classification') == 'Rác'),
+            "Ấm": sum(1 for l in filtered_leads if l.get('classification') == 'Ấm'),
+            "Nóng": sum(1 for l in filtered_leads if l.get('classification') == 'Nóng')
+        }
+        df_chart_class = pd.DataFrame(
+            list(class_counts.items()), 
+            columns=['Phân loại', 'Số lượng']
+        ).set_index('Phân loại')
+        st.bar_chart(df_chart_class, use_container_width=True)
+
+    with chart_col2:
+        st.markdown("##### 📉 Phân bố điểm số tiềm năng")
+        score_counts = {
+            "0": sum(1 for l in filtered_leads if l.get('score') == 0),
+            "50": sum(1 for l in filtered_leads if l.get('score') == 50),
+            "100": sum(1 for l in filtered_leads if l.get('score') == 100)
+        }
+        df_chart_score = pd.DataFrame(
+            list(score_counts.items()), 
+            columns=['Điểm số', 'Số lượng']
+        ).set_index('Điểm số')
+        st.bar_chart(df_chart_score, use_container_width=True)
+
+# Render table inside table placeholder
+with table_placeholder:
+    if filtered_leads:
+        df_display = pd.DataFrame(filtered_leads)
+        
+        # Ensure missing columns are present
+        for col in ['score', 'classification', 'reason', 'status', 'reviewer_notes']:
+            if col not in df_display.columns:
+                df_display[col] = None
                 
-    st.markdown("---")
+        col_order = ['id', 'name', 'phone', 'requirement', 'score', 'classification', 'reason', 'status', 'reviewer_notes']
+        df_display = df_display[col_order]
+        
+        # Interactive Data Editor
+        edited_df = st.data_editor(
+            df_display,
+            column_config={
+                "id": st.column_config.NumberColumn("Mã", disabled=True),
+                "name": st.column_config.TextColumn("Họ tên", required=True),
+                "phone": st.column_config.TextColumn("Số điện thoại"),
+                "requirement": st.column_config.TextColumn("Nhu cầu", width="large"),
+                "score": st.column_config.NumberColumn("Điểm AI", disabled=True),
+                "classification": st.column_config.SelectboxColumn(
+                    "Phân loại AI",
+                    options=["Nóng", "Ấm", "Rác"],
+                    disabled=True
+                ),
+                "reason": st.column_config.TextColumn("Lý do chấm điểm", disabled=True, width="medium"),
+                "status": st.column_config.SelectboxColumn(
+                    "Duyệt (Human)",
+                    options=["Chờ duyệt", "Đã duyệt", "Loại bỏ"],
+                    required=True
+                ),
+                "reviewer_notes": st.column_config.TextColumn("Ghi chú kiểm duyệt", width="medium")
+            },
+            disabled=["id", "score", "classification", "reason"],
+            hide_index=True,
+            use_container_width=True
+        )
+        
+        # Sync edited data back to main session state
+        for row in edited_df.to_dict('records'):
+            # Update matching lead in main session state
+            for lead in st.session_state.leads:
+                if lead['id'] == row['id']:
+                    lead['name'] = row['name']
+                    lead['phone'] = row['phone']
+                    lead['requirement'] = row['requirement']
+                    lead['status'] = row['status']
+                    lead['reviewer_notes'] = row['reviewer_notes']
+                    break
+                    
+        st.markdown("---")
     
     # Excel Generation
     wb = openpyxl.Workbook()
@@ -666,9 +692,9 @@ if filtered_leads:
             lead.get('email', ''),
             lead.get('requirement', ''),
             lead.get('score', 0) if lead.get('score') is not None else "",
-            lead.get('classification', 'Tiềm năng trung bình'),
+            lead.get('classification', 'Ấm'),
             lead.get('reason', ''),
-            lead.get('status', 'Chưa duyệt'),
+            lead.get('status', 'Chờ duyệt'),
             lead.get('reviewer_notes', '')
         ]
         ws.append(row_data)
@@ -687,13 +713,13 @@ if filtered_leads:
                 
             if col_idx == 7:
                 val = str(cell.value)
-                if val == "VIP":
+                if val == "Nóng":
                     cell.fill = fill_vip
                     cell.font = Font(name=font_family, size=11, bold=True, color="7F6000")
-                elif val == "Tiềm năng trung bình":
+                elif val == "Ấm":
                     cell.fill = fill_med
                     cell.font = Font(name=font_family, size=11, bold=False, color="1F4E79")
-                elif val == "Không tiềm năng":
+                elif val == "Rác":
                     cell.fill = fill_trash
                     cell.font = Font(name=font_family, size=11, bold=True, color="C00000")
                     
@@ -702,7 +728,7 @@ if filtered_leads:
                 if val == "Đã duyệt":
                     cell.fill = fill_approved
                     cell.font = Font(name=font_family, size=11, bold=True, color="375623")
-                elif val == "Từ chối":
+                elif val == "Loại bỏ":
                     cell.fill = fill_rejected
                     cell.font = Font(name=font_family, size=11, bold=True, color="C00000")
                 else:
