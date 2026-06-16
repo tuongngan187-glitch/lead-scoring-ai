@@ -376,11 +376,24 @@ st.markdown("""
 # ----------------------------------------------------
 with st.sidebar:
     st.markdown("### ⚙️ Cấu hình hệ thống")
-    sheet_url_input = st.text_input(
-        "Đường dẫn Google Sheets (CSV Export)", 
-        value=SHEET_URL,
-        help="Đường dẫn trích xuất định dạng CSV của Google Sheets"
+    data_source = st.selectbox(
+        "Nguồn dữ liệu đầu vào",
+        ["Google Sheets Link", "Tải tệp từ máy (.xlsx, .csv)"],
+        help="Chọn phương thức nhập dữ liệu khách hàng cần chấm điểm"
     )
+    
+    if data_source == "Google Sheets Link":
+        sheet_url_input = st.text_input(
+            "Đường dẫn Google Sheets (CSV Export)", 
+            value=SHEET_URL,
+            help="Đường dẫn trích xuất định dạng CSV của Google Sheets"
+        )
+    else:
+        uploaded_file = st.file_uploader(
+            "Chọn tệp khách hàng từ máy",
+            type=["csv", "xlsx", "xls"],
+            help="Hỗ trợ định dạng .csv, .xlsx, .xls"
+        )
     
     st.markdown("### 🔍 Bộ lọc hiển thị")
     search_q = st.text_input("Tìm kiếm theo Tên / Số điện thoại", value="")
@@ -404,25 +417,53 @@ with st.sidebar:
 st.title("AI LEAD SCORING DASHBOARD")
 st.caption("Bảng điều khiển phân tích & chấm điểm khách hàng tiềm năng tự động")
 
-# Sync Button
-if st.button("📥 Tải dữ liệu & Chấm điểm từ Google Sheet", type="primary"):
-    # Clear existing state and pull new data
-    headers = {'User-Agent': 'Mozilla/5.0'}
-    csv_url = sheet_url_input
-    if "/edit" in sheet_url_input:
-        match = re.search(r'\/spreadsheets\/d\/([a-zA-Z0-9-_]+)', sheet_url_input)
-        if match:
-            sheet_id = match.group(1)
-            gid = "0"
-            gid_match = re.search(r'gid=(\d+)', sheet_url_input)
-            if gid_match:
-                gid = gid_match.group(1)
-            csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}"
-            
-    try:
-        res = requests.get(csv_url, headers=headers, timeout=15)
-        if res.status_code == 200:
-            df = pd.read_csv(io.StringIO(res.text))
+# Process Google Sheets Sync or File Upload
+if data_source == "Google Sheets Link":
+    if st.button("📥 Tải dữ liệu & Chấm điểm từ Google Sheet", type="primary"):
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        csv_url = sheet_url_input
+        if "/edit" in sheet_url_input:
+            match = re.search(r'\/spreadsheets\/d\/([a-zA-Z0-9-_]+)', sheet_url_input)
+            if match:
+                sheet_id = match.group(1)
+                gid = "0"
+                gid_match = re.search(r'gid=(\d+)', sheet_url_input)
+                if gid_match:
+                    gid = gid_match.group(1)
+                csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}"
+                
+        try:
+            res = requests.get(csv_url, headers=headers, timeout=15)
+            if res.status_code == 200:
+                df = pd.read_csv(io.StringIO(res.text))
+                normalized = normalize_dataframe(df)
+                
+                # Score
+                for lead in normalized:
+                    res_score = rule_based_scorer(lead.get('requirement', ''))
+                    lead['score'] = res_score['score']
+                    lead['classification'] = res_score['classification']
+                    lead['reason'] = res_score['reason']
+                    
+                st.session_state.leads = normalized
+                st.session_state.processed_count = len(normalized)
+                st.success(f"Đã xử lý thành công {st.session_state.processed_count} dòng dữ liệu!")
+            else:
+                st.error(f"Google Sheet trả về mã lỗi {res.status_code} (Bảng tính riêng tư). Không thể đồng bộ.")
+        except Exception as e:
+            st.error(f"Lỗi đồng bộ: {str(e)}")
+else:
+    # File upload handling
+    if 'last_uploaded_file' not in st.session_state:
+        st.session_state.last_uploaded_file = None
+        
+    if uploaded_file is not None and uploaded_file != st.session_state.last_uploaded_file:
+        try:
+            if uploaded_file.name.endswith(".csv"):
+                df = pd.read_csv(uploaded_file)
+            else:
+                df = pd.read_excel(uploaded_file)
+                
             normalized = normalize_dataframe(df)
             
             # Score
@@ -434,11 +475,10 @@ if st.button("📥 Tải dữ liệu & Chấm điểm từ Google Sheet", type="
                 
             st.session_state.leads = normalized
             st.session_state.processed_count = len(normalized)
-            st.success(f"Đã xử lý thành công {st.session_state.processed_count} dòng dữ liệu!")
-        else:
-            st.error(f"Google Sheet trả về mã lỗi 404 (Private). Không thể tải dữ liệu mới. Đang giữ lại bộ dữ liệu hiện tại.")
-    except Exception as e:
-        st.error(f"Lỗi đồng bộ: {str(e)}. Đang giữ lại bộ dữ liệu hiện tại.")
+            st.session_state.last_uploaded_file = uploaded_file
+            st.success(f"Đã xử lý thành công {st.session_state.processed_count} dòng dữ liệu từ tệp cục bộ!")
+        except Exception as e:
+            st.error(f"Lỗi phân tích tệp: {str(e)}")
 
 # Filter and Search processing
 filtered_leads = st.session_state.leads
