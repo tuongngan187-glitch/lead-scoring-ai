@@ -643,121 +643,121 @@ with table_placeholder:
                     
         st.markdown("---")
     
-    # Excel Generation
-    wb = openpyxl.Workbook()
-    ws = wb.active
-    ws.title = "Báo cáo Chấm Điểm Leads"
-    ws.views.sheetView[0].showGridLines = True
-    
-    headers_excel = [
-        "Mã Lead", "Họ Tên Khách Hàng", "Số Điện Thoại", "Email", 
-        "Nhu Cầu Chi Tiết", "Điểm Đánh Giá", "Phân Loại", "Lý Do Đánh Giá", 
-        "Trạng Thái Duyệt", "Ghi Chú Kiểm Duyệt"
-    ]
-    ws.append(headers_excel)
-    
-    font_family = "Segoe UI"
-    header_font = Font(name=font_family, size=11, bold=True, color="FFFFFF")
-    header_fill = PatternFill(start_color="1F4E79", end_color="1F4E79", fill_type="solid")
-    data_font = Font(name=font_family, size=11)
-    
-    thin = Side(border_style="thin", color="D9D9D9")
-    double = Side(border_style="double", color="1F4E79")
-    grid_border = Border(left=thin, right=thin, top=thin, bottom=thin)
-    
-    align_center = Alignment(horizontal="center", vertical="center", wrap_text=True)
-    align_left = Alignment(horizontal="left", vertical="center", wrap_text=True)
-    
-    fill_vip = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
-    fill_med = PatternFill(start_color="DDEBF7", end_color="DDEBF7", fill_type="solid")
-    fill_trash = PatternFill(start_color="FCE4D6", end_color="FCE4D6", fill_type="solid")
-    
-    fill_approved = PatternFill(start_color="E2EFDA", end_color="E2EFDA", fill_type="solid")
-    fill_rejected = PatternFill(start_color="FCE4D6", end_color="FCE4D6", fill_type="solid")
-    fill_pending = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
-    
-    for col_idx, h in enumerate(headers_excel, 1):
-        cell = ws.cell(row=1, column=col_idx)
-        cell.font = header_font
-        cell.fill = header_fill
-        cell.alignment = align_center
-        cell.border = Border(left=thin, right=thin, top=thin, bottom=double)
-    ws.row_dimensions[1].height = 28
-    
-    for lead in st.session_state.leads:
-        row_data = [
-            f"L{lead.get('id', 0):03d}",
-            lead.get('name', ''),
-            lead.get('phone', ''),
-            lead.get('email', ''),
-            lead.get('requirement', ''),
-            lead.get('score', 0) if lead.get('score') is not None else "",
-            lead.get('classification', 'Ấm'),
-            lead.get('reason', ''),
-            lead.get('status', 'Chờ duyệt'),
-            lead.get('reviewer_notes', '')
+        # Excel Generation
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Báo cáo Chấm Điểm Leads"
+        ws.views.sheetView[0].showGridLines = True
+        
+        headers_excel = [
+            "Mã Lead", "Họ Tên Khách Hàng", "Số Điện Thoại", "Email", 
+            "Nhu Cầu Chi Tiết", "Điểm Đánh Giá", "Phân Loại", "Lý Do Đánh Giá", 
+            "Trạng Thái Duyệt", "Ghi Chú Kiểm Duyệt"
         ]
-        ws.append(row_data)
+        ws.append(headers_excel)
         
-        row_idx = ws.max_row
-        ws.row_dimensions[row_idx].height = 24
+        font_family = "Segoe UI"
+        header_font = Font(name=font_family, size=11, bold=True, color="FFFFFF")
+        header_fill = PatternFill(start_color="1F4E79", end_color="1F4E79", fill_type="solid")
+        data_font = Font(name=font_family, size=11)
         
-        for col_idx in range(1, len(row_data) + 1):
-            cell = ws.cell(row=row_idx, column=col_idx)
-            cell.font = data_font
-            cell.border = grid_border
-            cell.alignment = align_left
+        thin = Side(border_style="thin", color="D9D9D9")
+        double = Side(border_style="double", color="1F4E79")
+        grid_border = Border(left=thin, right=thin, top=thin, bottom=thin)
+        
+        align_center = Alignment(horizontal="center", vertical="center", wrap_text=True)
+        align_left = Alignment(horizontal="left", vertical="center", wrap_text=True)
+        
+        fill_vip = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
+        fill_med = PatternFill(start_color="DDEBF7", end_color="DDEBF7", fill_type="solid")
+        fill_trash = PatternFill(start_color="FCE4D6", end_color="FCE4D6", fill_type="solid")
+        
+        fill_approved = PatternFill(start_color="E2EFDA", end_color="E2EFDA", fill_type="solid")
+        fill_rejected = PatternFill(start_color="FCE4D6", end_color="FCE4D6", fill_type="solid")
+        fill_pending = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
+        
+        for col_idx, h in enumerate(headers_excel, 1):
+            cell = ws.cell(row=1, column=col_idx)
+            cell.font = header_font
+            cell.fill = header_fill
+            cell.alignment = align_center
+            cell.border = Border(left=thin, right=thin, top=thin, bottom=double)
+        ws.row_dimensions[1].height = 28
+        
+        for lead in st.session_state.leads:
+            row_data = [
+                f"L{lead.get('id', 0):03d}",
+                lead.get('name', ''),
+                lead.get('phone', ''),
+                lead.get('email', ''),
+                lead.get('requirement', ''),
+                lead.get('score', 0) if lead.get('score') is not None else "",
+                lead.get('classification', 'Ấm'),
+                lead.get('reason', ''),
+                lead.get('status', 'Chờ duyệt'),
+                lead.get('reviewer_notes', '')
+            ]
+            ws.append(row_data)
             
-            if col_idx in [1, 3, 6, 7, 9]:
-                cell.alignment = align_center
+            row_idx = ws.max_row
+            ws.row_dimensions[row_idx].height = 24
+            
+            for col_idx in range(1, len(row_data) + 1):
+                cell = ws.cell(row=row_idx, column=col_idx)
+                cell.font = data_font
+                cell.border = grid_border
+                cell.alignment = align_left
                 
-            if col_idx == 7:
-                val = str(cell.value)
-                if val == "Nóng":
-                    cell.fill = fill_vip
-                    cell.font = Font(name=font_family, size=11, bold=True, color="7F6000")
-                elif val == "Ấm":
-                    cell.fill = fill_med
-                    cell.font = Font(name=font_family, size=11, bold=False, color="1F4E79")
-                elif val == "Rác":
-                    cell.fill = fill_trash
-                    cell.font = Font(name=font_family, size=11, bold=True, color="C00000")
+                if col_idx in [1, 3, 6, 7, 9]:
+                    cell.alignment = align_center
                     
-            if col_idx == 9:
-                val = str(cell.value)
-                if val == "Đã duyệt":
-                    cell.fill = fill_approved
-                    cell.font = Font(name=font_family, size=11, bold=True, color="375623")
-                elif val == "Loại bỏ":
-                    cell.fill = fill_rejected
-                    cell.font = Font(name=font_family, size=11, bold=True, color="C00000")
-                else:
-                    cell.fill = fill_pending
-                    cell.font = Font(name=font_family, size=11, bold=False, color="7F6000")
+                if col_idx == 7:
+                    val = str(cell.value)
+                    if val == "Nóng":
+                        cell.fill = fill_vip
+                        cell.font = Font(name=font_family, size=11, bold=True, color="7F6000")
+                    elif val == "Ấm":
+                        cell.fill = fill_med
+                        cell.font = Font(name=font_family, size=11, bold=False, color="1F4E79")
+                    elif val == "Rác":
+                        cell.fill = fill_trash
+                        cell.font = Font(name=font_family, size=11, bold=True, color="C00000")
+                        
+                if col_idx == 9:
+                    val = str(cell.value)
+                    if val == "Đã duyệt":
+                        cell.fill = fill_approved
+                        cell.font = Font(name=font_family, size=11, bold=True, color="375623")
+                    elif val == "Loại bỏ":
+                        cell.fill = fill_rejected
+                        cell.font = Font(name=font_family, size=11, bold=True, color="C00000")
+                    else:
+                        cell.fill = fill_pending
+                        cell.font = Font(name=font_family, size=11, bold=False, color="7F6000")
 
-    for col in ws.columns:
-        max_len = 0
-        col_letter = openpyxl.utils.get_column_letter(col[0].column)
-        if col[0].column in [5, 8]:
-            ws.column_dimensions[col_letter].width = 40
-            continue
-        for cell in col:
-            val_str = str(cell.value or '')
-            if len(val_str) > max_len:
-                max_len = len(val_str)
-        ws.column_dimensions[col_letter].width = max(max_len + 3, 12)
+        for col in ws.columns:
+            max_len = 0
+            col_letter = openpyxl.utils.get_column_letter(col[0].column)
+            if col[0].column in [5, 8]:
+                ws.column_dimensions[col_letter].width = 40
+                continue
+            for cell in col:
+                val_str = str(cell.value or '')
+                if len(val_str) > max_len:
+                    max_len = len(val_str)
+            ws.column_dimensions[col_letter].width = max(max_len + 3, 12)
+            
+        output_excel = io.BytesIO()
+        wb.save(output_excel)
+        output_excel.seek(0)
         
-    output_excel = io.BytesIO()
-    wb.save(output_excel)
-    output_excel.seek(0)
-    
-    st.download_button(
-        label="📥 Tải xuống File Excel (.xlsx)",
-        data=output_excel.getvalue(),
-        file_name="Bao_Cao_Khach_Hang_Tiem_Nang.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        type="primary",
-        use_container_width=True
-    )
-else:
-    st.info("Không tìm thấy kết quả phù hợp với bộ lọc hiển thị.")
+        st.download_button(
+            label="📥 Tải xuống File Excel (.xlsx)",
+            data=output_excel.getvalue(),
+            file_name="Bao_Cao_Khach_Hang_Tiem_Nang.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            type="primary",
+            use_container_width=True
+        )
+    else:
+        st.info("Không tìm thấy kết quả phù hợp với bộ lọc hiển thị.")
