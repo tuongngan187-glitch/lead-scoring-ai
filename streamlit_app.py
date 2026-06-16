@@ -5,6 +5,7 @@ import io
 import requests
 import json
 import os
+import re
 from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
 from app_lead_scoring import rule_based_scorer, normalize_dataframe, SHEET_URL
 
@@ -41,7 +42,7 @@ st.markdown("""
         text-align: center;
     }
 </style>
-""", unsafe_allow_index=True)
+""", unsafe_allow_html=True)
 
 # Session State Initialization
 if 'leads' not in st.session_state:
@@ -191,8 +192,8 @@ def generate_excel_bytes(leads_list):
     return output.getvalue()
 
 # MAIN INTERFACE
-st.markdown('<div class="main-title">🤖 AI LEAD SCORING DASHBOARD</div>', unsafe_allow_index=True)
-st.markdown('<div class="sub-title">Phân Loại Khách Hàng Tiềm Năng Bất Động Sản & Duyệt Kết Quả (Human-in-the-loop)</div>', unsafe_allow_index=True)
+st.markdown('<div class="main-title">🤖 AI LEAD SCORING DASHBOARD</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-title">Phân Loại Khách Hàng Tiềm Năng Bất Động Sản & Duyệt Kết Quả (Human-in-the-loop)</div>', unsafe_allow_html=True)
 
 # SIDEBAR CONTROL PANEL
 with st.sidebar:
@@ -201,7 +202,6 @@ with st.sidebar:
     # Google Sheet URL
     sheet_url_input = st.text_input("URL Google Sheets", value=SHEET_URL)
     if st.button("🔄 Đồng Bộ Google Sheets", use_container_width=True):
-        import re
         fetch_google_sheet(sheet_url_input)
         
     st.markdown("---")
