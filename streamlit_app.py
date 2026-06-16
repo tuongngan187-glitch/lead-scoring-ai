@@ -515,6 +515,43 @@ with filters_placeholder:
             default=["Chờ duyệt", "Đã duyệt", "Loại bỏ"],
             label_visibility="collapsed"
         )
+        
+    st.markdown("---")
+    st.markdown("#### ⚡ Hành Động Nhanh")
+    action_col1, action_col2, action_col3 = st.columns(3)
+    
+    with action_col1:
+        if st.button("👍 Duyệt nhanh khách Nóng", use_container_width=True, help="Tự động chuyển toàn bộ khách hàng Nóng thành Đã duyệt"):
+            count = 0
+            for lead in st.session_state.leads:
+                if lead.get('classification') == 'Nóng' and lead.get('status') != 'Đã duyệt':
+                    lead['status'] = 'Đã duyệt'
+                    count += 1
+            if count > 0:
+                st.success(f"Đã duyệt thành công {count} khách hàng Nóng!")
+                st.rerun()
+            else:
+                st.info("Không có khách hàng Nóng nào cần duyệt.")
+                
+    with action_col2:
+        if st.button("👎 Loại bỏ nhanh khách Rác", use_container_width=True, help="Tự động chuyển toàn bộ khách hàng Rác thành Loại bỏ"):
+            count = 0
+            for lead in st.session_state.leads:
+                if lead.get('classification') == 'Rác' and lead.get('status') != 'Loại bỏ':
+                    lead['status'] = 'Loại bỏ'
+                    count += 1
+            if count > 0:
+                st.success(f"Đã loại bỏ thành công {count} khách hàng Rác!")
+                st.rerun()
+            else:
+                st.info("Không có khách hàng Rác nào cần loại bỏ.")
+                
+    with action_col3:
+        if st.button("🔄 Khôi phục trạng thái", use_container_width=True, help="Khôi phục toàn bộ trạng thái về Chờ duyệt"):
+            for lead in st.session_state.leads:
+                lead['status'] = 'Chờ duyệt'
+            st.success("Đã khôi phục trạng thái toàn bộ khách hàng về Chờ duyệt!")
+            st.rerun()
 
 # Apply main page smart filters
 filtered_leads = [
