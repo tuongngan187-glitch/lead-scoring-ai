@@ -1,0 +1,25 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints
+
+# Environment variables & secrets
+.env
+.env.*
+
+# Local data stores & generated reports
+leads_store.json
+test_report.txt
+*.xlsx
+
+# System & IDE files
+.gemini/
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp

@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "name": "Nguyễn Văn Hưng",
+    "phone": "0912345678",
+    "email": "hung.nguyen@email.com",
+    "requirement": "Tôi là chủ doanh nghiệp, đang có nhu cầu tìm mua một căn biệt thự đơn lập tại Vinhomes Ocean Park. Ngân sách khoảng 35 tỷ đồng, tài chính đã sẵn sàng thanh toán ngay. Yêu cầu pháp lý chuẩn 100%, có sổ hồng riêng và muốn gặp trực tiếp chủ đầu tư để thương thảo.",
+    "score": null,
+    "classification": null,
+    "reason": null,
+    "status": "Chưa duyệt",
+    "reviewer_notes": ""
+  },
+  {
+    "id": 2,
+    "name": "Trần Thị Lan",
+    "phone": "0987654321",
+    "email": "lan.tran@email.com",
+    "requirement": "Đại diện quỹ đầu tư mua sỉ diện tích lớn sàn văn phòng tại Quận 1 ven sông Sài Gòn để làm trụ sở. Tài chính mạnh không thành vấn đề, yêu cầu pháp lý hoàn chỉnh sổ hồng trao tay.",
+    "score": null,
+    "classification": null,
+    "reason": null,
+    "status": "Chưa duyệt",
+    "reviewer_notes": ""
+  },
+  {
+    "id": 3,
+    "name": "Phạm Minh Đức",
+    "phone": "0903334455",
+    "email": "duc.pham@email.com",
+    "requirement": "Cần tìm căn Penthouse cao cấp tại Phú Mỹ Hưng. Yêu cầu có tầm nhìn ven sông thông thoáng, tài chính tầm 25 tỷ thanh toán nhanh gọn. Muốn làm việc trực tiếp với chủ đầu tư để thương lượng giá.",
+    "score": null,
+    "classification": null,
+    "reason": null,
+    "status": "Chưa duyệt",
+    "reviewer_notes": ""
+  },
+  {
+    "id": 4,
+    "name": "Lê Hoàng Nam",
+    "phone": "0915112233",
+    "email": "nam.le@email.com",
+    "requirement": "Cần mua chung cư 2 phòng ngủ giá từ 3-4 tỷ đồng tại khu vực Quận 7 hoặc Nhà Bè cho gia đình ở. Cần dự án có chính sách hỗ trợ vay vốn ngân hàng lãi suất tốt.",
+    "score": null,
+    "classification": null,
+    "reason": null,
+    "status": "Chưa duyệt",
+    "reviewer_notes": ""
+  },
+  {
+    "id": 5,
+    "name": "Vũ Thị Hồng",
+    "phone": "0978223344",
+    "email": "hong.vu@email.com",
+    "requirement": "Tìm nhà phố khu vực Quận 9 hoặc Thủ Đức tầm giá 6-7 tỷ. Cần tư vấn thêm về pháp lý và quy hoạch lộ giới đường trước nhà.",
+    "score": null,
+    "classification": null,
+    "reason": null,
+    "status": "Chưa duyệt",
+    "reviewer_notes": ""
+  },
+  {
+    "id": 6,
+    "name": "Hoàng Văn Tèo",
+    "phone": "0966554433",
+    "email": "teo.hoang@email.com",
+    "requirement": "Cần mua nhà mặt phố trung tâm Quận 1 có sân vườn và hồ bơi, giá tầm 1.5 tỷ trở lại. Đầy đủ sổ hồng riêng.",
+    "score": null,
+    "classification": null,
+    "reason": null,
+    "status": "Chưa duyệt",
+    "reviewer_notes": ""
+  },
+  {
+    "id": 7,
+    "name": "Đỗ Minh Quân",
+    "phone": "0933889900",
+    "email": "quan.do@email.com",
+    "requirement": "Nhầm số rồi em ơi, anh không có nhu cầu mua bất động sản đâu nhé.",
+    "score": null,
+    "classification": null,
+    "reason": null,
+    "status": "Chưa duyệt",
+    "reviewer_notes": ""
+  },
+  {
+    "id": 8,
+    "name": "Bảo Hiểm ABC",
+    "phone": "0909998877",
+    "email": "info@insurance.com",
+    "requirement": "Chào bạn, bên mình chuyên cung cấp các gói bảo hiểm sức khỏe ưu việt cho doanh nghiệp và cá nhân, chiết khấu lên đến 30%...",
+    "score": null,
+    "classification": null,
+    "reason": null,
+    "status": "Chưa duyệt",
+    "reviewer_notes": ""
+  },
+  {
+    "id": 9,
+    "name": "Nguyễn Thu Trang",
+    "phone": "0911002233",
+    "email": "trang.nguyen@email.com",
+    "requirement": "Số thuê bao không liên lạc được, đã gọi nhiều lần vào các khung giờ khác nhau nhưng không bắt máy, nhắn tin Zalo không thấy phản hồi.",
+    "score": null,
+    "classification": null,
+    "reason": null,
+    "status": "Chưa duyệt",
+    "reviewer_notes": ""
+  }
+]

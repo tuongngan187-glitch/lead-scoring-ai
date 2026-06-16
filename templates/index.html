@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Chấm Điểm Khách Hàng Tiềm Năng AI - Bất Động Sản</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="glow-bg-secondary"></div>
+    
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i data-lucide="brain-circuit"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>LEAD SCORING AI</h1>
+                    <p>Hệ Thống Phân Loại & Phê Duyệt Khách Hàng Tiềm Năng</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button id="btn-export-excel" class="btn btn-emerald">
+                    <i data-lucide="download"></i>
+                    <span>Xuất File Excel</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- DASHBOARD STATISTICS -->
+        <section class="stats-grid">
+            <div class="stat-card vip">
+                <div class="stat-info">
+                    <span class="stat-label">Khách VIP (+50đ)</span>
+                    <span id="stat-vip-count" class="stat-value">0</span>
+                </div>
+                <div class="stat-icon-wrapper">
+                    <i data-lucide="gem"></i>
+                </div>
+            </div>
+            
+            <div class="stat-card medium">
+                <div class="stat-info">
+                    <span class="stat-label">Khách Tầm Trung (0đ)</span>
+                    <span id="stat-medium-count" class="stat-value">0</span>
+                </div>
+                <div class="stat-icon-wrapper">
+                    <i data-lucide="home"></i>
+                </div>
+            </div>
+            
+            <div class="stat-card trash">
+                <div class="stat-info">
+                    <span class="stat-label font-bold">Khách Rác (-50đ)</span>
+                    <span id="stat-trash-count" class="stat-value">0</span>
+                </div>
+                <div class="stat-icon-wrapper">
+                    <i data-lucide="trash-2"></i>
+                </div>
+            </div>
+            
+            <div class="stat-card approved">
+                <div class="stat-info">
+                    <span class="stat-label">Đã Duyệt (Human)</span>
+                    <span id="stat-approved-count" class="stat-value">0</span>
+                </div>
+                <div class="stat-icon-wrapper">
+                    <i data-lucide="user-check"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTROL & CONFIGURATION -->
+        <div class="panels-grid">
+            <!-- Source Integration Panel -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <i data-lucide="database" class="text-blue"></i>
+                    <h2>Tích Hợp Dữ Liệu Đầu Vào</h2>
+                </div>
+                
+                <div class="form-group">
+                    <label for="input-sheet-url">URL Google Sheets</label>
+                    <div class="input-action-group">
+                        <input type="text" id="input-sheet-url" placeholder="https://docs.google.com/spreadsheets/d/.../edit" value="https://docs.google.com/spreadsheets/d/1hRvHE6RXm1peVG07avfApPEHocOcPld9IA94hE3vUGE/edit?gid=0#gid=0">
+                        <button id="btn-fetch-sheet" class="btn btn-primary">
+                            <i data-lucide="refresh-cw"></i>
+                            <span>Đồng Bộ</span>
+                        </button>
+                    </div>
+                    <small class="helper-text">Mẹo: Cần thiết lập quyền chia sẻ bảng tính ở chế độ "Người có liên kết có thể xem".</small>
+                </div>
+                
+                <div class="divider-text">hoặc</div>
+                
+                <div class="upload-mock-row">
+                    <!-- Custom File Upload Button -->
+                    <label class="btn btn-outline file-upload-label">
+                        <i data-lucide="upload-cloud"></i>
+                        <span>Tải tệp CSV/Excel</span>
+                        <input type="file" id="input-file-upload" accept=".csv, .xlsx, .xls" style="display: none;">
+                    </label>
+                    
+                    <button id="btn-load-mock" class="btn btn-outline-warning">
+                        <i data-lucide="copy-check"></i>
+                        <span>Tải Dữ Liệu Mẫu</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- AI Scoring Configuration Panel -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <i data-lucide="zap" class="text-gold"></i>
+                    <h2>Thiết Lập Chấm Điểm AI</h2>
+                </div>
+                
+                <div class="form-group">
+                    <label for="input-api-key">Gemini API Key</label>
+                    <div class="input-password-wrapper">
+                        <input type="password" id="input-api-key" placeholder="Nhập API Key để kích hoạt AI chấm điểm">
+                        <button id="btn-toggle-key" class="btn-icon">
+                            <i data-lucide="eye"></i>
+                        </button>
+                    </div>
+                    <small class="helper-text">Lưu ý: Nếu không nhập API Key, hệ thống sẽ sử dụng bộ lọc chấm điểm cục bộ (Heuristic Rules).</small>
+                </div>
+                
+                <div class="action-row">
+                    <button id="btn-run-scoring" class="btn btn-gold btn-full">
+                        <i data-lucide="sparkles"></i>
+                        <span>Kích Hoạt Chấm Điểm AI</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN TABLE & VIEW SECTION -->
+        <section class="glass-panel main-table-panel">
+            <div class="table-toolbar">
+                <div class="filter-tabs">
+                    <button class="tab-btn active" data-filter="all">Tất Cả (<span id="count-all">0</span>)</button>
+                    <button class="tab-btn" data-filter="VIP"><span class="badge badge-gold-dot"></span>VIP (<span id="count-vip">0</span>)</button>
+                    <button class="tab-btn" data-filter="Trung bình"><span class="badge badge-blue-dot"></span>Tầm Trung (<span id="count-medium">0</span>)</button>
+                    <button class="tab-btn" data-filter="Rác"><span class="badge badge-red-dot"></span>Khách Rác (<span id="count-trash">0</span>)</button>
+                    <button class="tab-btn" data-filter="Chưa duyệt">Chờ Duyệt (<span id="count-pending">0</span>)</button>
+                </div>
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="search-input" placeholder="Tìm kiếm tên, SĐT, nhu cầu...">
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="leads-table">
+                    <thead>
+                        <tr>
+                            <th width="80px">Mã</th>
+                            <th width="150px">Khách Hàng</th>
+                            <th width="120px">Điện Thoại</th>
+                            <th>Nhu Cầu Chi Tiết</th>
+                            <th width="100px" class="text-center">Điểm AI</th>
+                            <th width="120px">AI Phân Loại</th>
+                            <th width="120px">Người Duyệt</th>
+                            <th width="100px" class="text-center">Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leads-tbody">
+                        <tr>
+                            <td colspan="8" class="text-center py-8">
+                                <div class="loading-state">
+                                    <i data-lucide="database-backup" class="animate-bounce"></i>
+                                    <p class="mt-2 text-muted">Chưa có dữ liệu. Hãy đồng bộ Google Sheets, nạp file hoặc tải dữ liệu mẫu.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- HUMAN IN THE LOOP EDIT MODAL -->
+    <div id="lead-modal" class="modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <div class="modal-title-wrapper">
+                    <span id="modal-lead-code" class="modal-lead-code">L001</span>
+                    <h3 id="modal-lead-name-title">Chi Tiết Kiểm Duyệt</h3>
+                </div>
+                <button class="btn-close-modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="edit-lead-form">
+                    <input type="hidden" id="edit-lead-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="edit-lead-name">Họ Tên Khách Hàng</label>
+                            <input type="text" id="edit-lead-name" required>
+                        </div>
+                        <div class="form-group col">
+                            <label for="edit-lead-phone">Số Điện Thoại</label>
+                            <input type="text" id="edit-lead-phone">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="edit-lead-email">Email</label>
+                            <input type="email" id="edit-lead-email">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-lead-req">Chi Tiết Nhu Cầu</label>
+                        <textarea id="edit-lead-req" rows="4" required></textarea>
+                    </div>
+
+                    <!-- AI Scoring Display and Override -->
+                    <div class="scoring-override-box">
+                        <h4>Đánh Giá Của AI</h4>
+                        <div class="form-row">
+                            <div class="form-group col-sm">
+                                <label for="edit-lead-score">Điểm Số AI</label>
+                                <input type="number" id="edit-lead-score" class="text-center font-bold">
+                            </div>
+                            <div class="form-group col-md">
+                                <label for="edit-lead-class">Xếp Hạng Phân Loại</label>
+                                <select id="edit-lead-class">
+                                    <option value="VIP">VIP</option>
+                                    <option value="Trung bình">Trung bình</option>
+                                    <option value="Rác">Rác</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-lead-reason">Lý Do Đánh Giá (AI Reason)</label>
+                            <textarea id="edit-lead-reason" rows="2"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Human Review Decision Box -->
+                    <div class="human-decision-box">
+                        <h4>Quyết Định Kiểm Duyệt (Human-in-the-loop)</h4>
+                        
+                        <div class="decision-buttons">
+                            <button type="button" class="btn-decision btn-approve" data-status="Đã duyệt">
+                                <i data-lucide="check-circle"></i>
+                                <span>Phê Duyệt Lead</span>
+                            </button>
+                            <button type="button" class="btn-decision btn-reject" data-status="Từ chối">
+                                <i data-lucide="x-circle"></i>
+                                <span>Từ Chối / Loại Bỏ</span>
+                            </button>
+                            <button type="button" class="btn-decision btn-hold active" data-status="Chưa duyệt">
+                                <i data-lucide="clock"></i>
+                                <span>Giữ Chờ Duyệt</span>
+                            </button>
+                        </div>
+
+                        <div class="form-group mt-4">
+                            <label for="edit-lead-reviewer-notes">Ghi Chú Phê Duyệt / Nội Bộ</label>
+                            <textarea id="edit-lead-reviewer-notes" placeholder="Lý do thay đổi trạng thái, thông tin bổ sung khi gọi điện..." rows="2"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline btn-close-modal">Hủy</button>
+                <button type="button" id="btn-save-lead" class="btn btn-primary">
+                    <i data-lucide="save"></i>
+                    <span>Lưu Thay Đổi</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast">
+        <div class="toast-icon">
+            <i data-lucide="info"></i>
+        </div>
+        <div id="toast-message" class="toast-message">Đã thực hiện hành động thành công!</div>
+    </div>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+    <!-- Link JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
